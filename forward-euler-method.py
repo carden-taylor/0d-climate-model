@@ -13,6 +13,7 @@ Validation Data: NASA GISTEMP v4
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from matplotlib.widgets import Slider
 
 # ==========================================#
 # PHYSICAL CONSTANTS & MODEL PARAMETERS     #
@@ -66,6 +67,7 @@ def temperature_rate(t, C_t, M_t, N_t, T_k): # Calculate the ROC of Temperature 
     # c_p  = 3993 J/(kg K)
     # H   = 50 m
     # C = rho*c_p*d
+
     inverse_C = (1)/(1025*3993*50)
 
     return inverse_C*f_tot
@@ -135,13 +137,17 @@ actual_temperatures = np.array([
 ])
 
 # ==========================================#
-# RESIDUALS                                 #
+# RESIDUALS & RMSE                          #
 # ==========================================#
 
 predicted_at_actual_years = np.interp(actual_years, t, t_c)
 residuals = actual_temperatures - predicted_at_actual_years
 
 fig, axs = plt.subplots(ncols=2)
+
+rmse = np.sqrt(np.mean(residuals**2))
+
+print(f"RMSE: {rmse:.4f} °C")
 
 # ==========================================#
 # VISUALIZATION                             #
